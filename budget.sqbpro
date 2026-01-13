@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="budget.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2176"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="Budget" custom_title="0" dock_id="1" table="4,6:mainBudget"/><dock_state state="000000ff00000000fd00000001000000020000000000000000fc0100000001fb000000160064006f0063006b00420072006f00770073006500310100000000ffffffff0000011800ffffff000000000000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1*">CREATE TABLE User (
+    User_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL,
+    Email TEXT UNIQUE NOT NULL,
+    Role TEXT NOT NULL
+);
+
+
+CREATE TABLE Country (
+    Country_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Country_Name TEXT NOT NULL
+);
+
+
+CREATE TABLE Budget (
+    Budget_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Country_ID INTEGER NOT NULL,
+    Year INTEGER NOT NULL,
+    Total_Revenue DECIMAL(17,2),
+    Total_Expenses DECIMAL(17,2),
+    Balance TEXT,
+    FOREIGN KEY (Country_ID) REFERENCES Country(Country_ID)
+);
+
+CREATE TABLE BudgetItemCategory (
+    Category_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Category_Name TEXT NOT NULL,
+    Type TEXT NOT NULL CHECK(Type IN ('Revenue', 'Expenditure'))
+);
+
+
+CREATE TABLE BudgetItem (
+    Item_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Budget_ID INTEGER NOT NULL,
+    Category_ID INTEGER NOT NULL,
+    Amount DECIMAL(17,2) NOT NULL,
+    FOREIGN KEY (Budget_ID) REFERENCES Budget(Budget_ID),
+    FOREIGN KEY (Category_ID) REFERENCES BudgetItemCategory(Category_ID)
+);
+
+
+CREATE TABLE Changes (
+    Change_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Item_ID INTEGER NOT NULL,
+    User_ID INTEGER NOT NULL,
+    Old_Amount DECIMAL(17,2),
+    New_Amount DECIMAL(17,2) NOT NULL,
+    Change_Date TEXT NOT NULL, 
+    FOREIGN KEY (Item_ID) REFERENCES BudgetItem(Item_ID),
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID)
+);
+
+
+CREATE TABLE BudgetComparison (
+    Comparison_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+    Budget1_ID INTEGER NOT NULL,
+    Budget2_ID INTEGER NOT NULL,
+    User_ID INTEGER NOT NULL,
+    FOREIGN KEY (Budget1_ID) REFERENCES Budget(Budget_ID),
+    FOREIGN KEY (Budget2_ID) REFERENCES Budget(Budget_ID),
+    FOREIGN KEY (User_ID) REFERENCES User(User_ID)
+);
+INSERT INTO Country (Country_ID,Country_Name) VALUES 
+(1, 'Ελλάδα'),   
+(2, 'Ολλανδία'),  
+(3, 'Γερμανία'),
+(4, 'Ισπανία'); 
+
+INSERT INTO BudgetItemCategory (Category_Name, Type) VALUES 
+('Γενικά Έσοδα Κράτους', 'Revenue'),      
+('Γενικά Έξοδα &amp; Δαπάνες', 'Expenditure');
+
+INSERT INTO Budget (Country_ID, Year, Total_Revenue, Total_Expenses, Balance) VALUES 
+(1, 2026, 0.00, 0.00, '0'),
+(1, 2025, 1304827000000.00, 1307907506000.00,'-3080506000'),
+(1, 2024, 1107649000000.00, 1108188270000.00, '-539270000'),
+(1, 2023, 798039000000.00, 806878193000.00, '-8839.193000');
+
+
+INSERT INTO Budget (Country_ID, Year, Total_Revenue, Total_Expenses, Balance) 
+VALUES (2, 2025, 487300000000.00, 497400000000.00, '-10100000000');
+
+INSERT INTO Budget (Country_ID, Year, Total_Revenue, Total_Expenses, Balance) 
+VALUES (3, 2025, 428200000000.00, 488900000000.00, '-60700000000');
+
+INSERT INTO Budget (Country_ID, Year, Total_Revenue, Total_Expenses, Balance) 
+VALUES (4, 2025, 648000000000.00, 694300000000.00, '-46300000000');
+
+INSERT INTO BudgetItem (Budget_ID, Category_ID, Amount) VALUES 
+(2, 1, 487300000000.00), 
+(2, 2, 497400000000.00); 
+
+INSERT INTO BudgetItem (Budget_ID, Category_ID, Amount) VALUES 
+(3, 1, 428200000000.00),
+(3, 2, 488900000000.00);
+
+INSERT INTO BudgetItem (Budget_ID, Category_ID, Amount) VALUES 
+(4, 1, 648000000000.00),
+(4, 2, 694300000000.00);</sql><current_tab id="0"/></tab_sql></sqlb_project>
