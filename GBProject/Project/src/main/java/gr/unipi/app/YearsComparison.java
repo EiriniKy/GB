@@ -96,7 +96,7 @@ public class YearsComparison {
 
     // ---------- Βοηθητικές μέθοδοι / κλάση ----------
 
-    private static void printBudgetLine(BudgetRow row) {
+    public static void printBudgetLine(BudgetRow row) {
         if (row == null) return;
         System.out.printf("%4d | %,18.2f | %,18.2f | %,10.2f%n",
                 row.year, row.totalRevenue, row.totalExpenses, row.balance);

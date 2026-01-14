@@ -13,15 +13,15 @@ public class CountriesComparison {
                 System.out.println("Αποτυχία σύνδεσης");
                 return;
             }
-        System.out.println("Σύγκριση με άλλες χώρες (έτος 2025).");
-        System.out.println("--------------------------------------------------");
+            System.out.println("Σύγκριση με άλλες χώρες (έτος 2025).");
+            System.out.println("--------------------------------------------------");
 
-        String sql =
-                "SELECT C.Country_Name, B.Total_Revenue, B.Total_Expenses, B.Balance " +
-                        "FROM Budget B " +
-                        "JOIN Country C ON B.Country_ID = C.Country_ID " +
-                        "WHERE B.Year = 2025 " +
-                        "ORDER BY B.Country_ID";
+            String sql =
+                    "SELECT C.Country_Name, B.Total_Revenue, B.Total_Expenses, B.Balance " +
+                            "FROM Budget B " +
+                            "JOIN Country C ON B.Country_ID = C.Country_ID " +
+                            "WHERE B.Year = 2025 " +
+                            "ORDER BY B.Country_ID";
 
             PreparedStatement pstmt = conn.prepareStatement(sql);
             ResultSet rs = pstmt.executeQuery();

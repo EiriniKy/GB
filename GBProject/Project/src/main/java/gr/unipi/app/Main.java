@@ -3,7 +3,8 @@ package gr.unipi.app;
 import java.sql.SQLException;
 import java.util.Scanner;
 import java.sql.Connection;
-public class TestMain {
+
+public class Main {
     public static void main (String[] args) {
         Connection conn = DatabaseConnection.getConnection();
 
@@ -14,7 +15,7 @@ public class TestMain {
         }
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Δώσε όνομα χρήστη: ");
+        System.out.println("Δώσε όνομα χρήστη: ");
         String name = scanner.nextLine();
 
         System.out.print("Δώσε κωδικό χρήστη: ");
@@ -49,6 +50,7 @@ public class TestMain {
                     break;
                 case "6":
                     System.out.println ("Έξοδος από το πρόγραμμα!");
+                    return;
                 default:
                     System.out.println ("Μη έγκυρη επιλογή!\nΔοκίμασε ξανά!");
                     return;
@@ -61,7 +63,7 @@ public class TestMain {
         System.out.println("1. Προβολή των δεδομένων του προϋπολογισμού της Ελλάδας 2026");
         System.out.println("2. Επεξεργασία προϋπολογισμού 2026");
         System.out.println("3. Σύγκριση με άλλες χώρες (2025)");
-        System.out.println("4. Σύγκριση με παλαιότερα έτη (2023-2025)");
+        System.out.println("4. Σύγκριση με παλαιότερα έτη (2025-2023)");
         System.out.println("5. Ιστορικό αλλαγών");
         System.out.println("6. Έξοδος\n");
     }
@@ -95,4 +97,3 @@ public class TestMain {
         new Scanner(System.in).nextLine();
     }
 }
-

@@ -54,11 +54,14 @@ public class ViewBudget {
         if (balance > 0) {
             System.out.printf("Πλεονασματικός  +%,.2f €\n", balance);
         } else if (balance < 0) {
-            System.out.printf("Έλλειματικός   %,.2f €\n", balance);
+            System.out.printf("Έλλειμματικός   %,.2f €\n", balance);
         } else {
             System.out.println("Ισοσκελισμένος (0.00 €)");
         }
         System.out.println("=".repeat(87));
+
+        updateBudget(year, totalRevenue, totalExpenses, balance);
+
 
         closeConnection(); // Κλείνουμε τη σύνδεση στο τέλος
     }
@@ -112,6 +115,32 @@ public class ViewBudget {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    private void updateBudget(int year, double totalRevenue, double totalExpenses, double balance) {
+        String sql =
+                "UPDATE Budget " +
+                        "SET Total_Revenue = ?, " +
+                        "    Total_Expenses = ?, " +
+                        "    Balance = ? " +
+                        "WHERE Year = ? AND Country_ID = 1";
+
+        try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDouble(1, totalRevenue);
+            pstmt.setDouble(2, totalExpenses);
+            pstmt.setDouble(3, balance);
+            pstmt.setInt(4, year);
+
+            int rows = pstmt.executeUpdate();
+
+            if (rows > 0) {
+                System.out.println("Ο προϋπολογισμός ενημερώθηκε στη βάση.");
+            } else {
+                System.out.println("Δεν βρέθηκε εγγραφή Budget για ενημέρωση.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Σφάλμα ενημέρωσης Budget: " + e.getMessage());
         }
     }
 }

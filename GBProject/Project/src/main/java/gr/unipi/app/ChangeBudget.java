@@ -57,7 +57,7 @@ public class ChangeBudget {
                     insertStmt.setInt(2, userId);
                     insertStmt.setDouble(3, oldAmount);
                     insertStmt.setDouble(4, newAmount);
-                    // SQLite δεν έχει native datetime τύπο, αποθηκεύουμε σαν TEXT ISO 8601
+
                     String now = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
                     insertStmt.setString(5, now);
                     insertStmt.executeUpdate();
